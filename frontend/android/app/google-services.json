@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "984471815517",
+    "project_id": "goodime-ai",
+    "storage_bucket": "goodime-ai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984471815517:android:62fcc2b562889bcf50d4b4",
+        "android_client_info": {
+          "package_name": "com.example.goodime_ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1Nv8XfBarPRMdGgeDqAq2Aw3D-jhwf84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
