@@ -54,7 +54,11 @@ class _LoginScreenState extends State<LoginScreen> {
       if (res.statusCode == 200) {
         final token = data["token"];
 
-        await context.read<AuthProvider>().login(token);
+        await context.read<AuthProvider>().login(
+          token,
+          name: data["user"]?["name"],
+          email: data["user"]?["email"],
+        );
 
         if (!mounted) return;
 
