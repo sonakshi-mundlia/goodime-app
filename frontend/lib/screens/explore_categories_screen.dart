@@ -31,13 +31,13 @@ class _ExploreCategoriesScreenState
     "agronomy",
     "artificial_intelligence",
     "astrophysics",
-    "augmented reality",
+    "augmented_reality",
     "aerospace_engineering",
     "biology",
     "bioinformatics",
     "biotechnology",
     "biomedical_engineering",
-    "big data",
+    "big_data",
     "blockchain",
     "chemistry",
     "civil_engineering",
@@ -55,7 +55,7 @@ class _ExploreCategoriesScreenState
     "electronics_engineering",
     "environmental_science",
     "finance",
-    "food science",
+    "food_science",
     "genetics",
     "geology",
     "history",
@@ -139,7 +139,7 @@ class _ExploreCategoriesScreenState
 
     try {
       final uri = Uri.parse(
-        "$baseUrl/category/$selectedCategory?limit=20",
+        "$baseUrl/search?category=$selectedCategory&limit=20",
       );
 
       final response = await http.get(uri);
@@ -149,12 +149,7 @@ class _ExploreCategoriesScreenState
 
         setState(() {
           papers = List<Map<String, dynamic>>.from(
-            decoded is List
-                ? decoded
-                : decoded["data"] ??
-                decoded["papers"] ??
-                decoded["results"] ??
-                [],
+            decoded["data"] ?? decoded,
           );
         });
       } else {
@@ -162,9 +157,6 @@ class _ExploreCategoriesScreenState
       }
     } catch (e) {
       setState(() => papers = []);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: $e")),
-      );
     }
 
     setState(() => isLoading = false);

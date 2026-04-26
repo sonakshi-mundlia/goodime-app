@@ -133,29 +133,24 @@ class _TrendingScreenState extends State<TrendingScreen> {
     setState(() => isLoading = true);
 
     try {
-      final response = await http.get(
-        Uri.parse("$baseUrl/trending"),
-      );
+      final response =
+      await http.get(Uri.parse("$baseUrl/trending"));
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final decoded = jsonDecode(response.body);
 
         setState(() {
           trendingPapers =
-          List<Map<String, dynamic>>.from(data ?? []);
+          List<Map<String, dynamic>>.from(
+            decoded["data"] ?? [],
+          );
         });
-      } else {
-        throw Exception("Failed to load trending");
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error: $e")),
-        );
-      }
+      print(e);
     }
 
-    if (mounted) setState(() => isLoading = false);
+    setState(() => isLoading = false);
   }
 
   // ================= FILTER =================
@@ -163,7 +158,12 @@ class _TrendingScreenState extends State<TrendingScreen> {
     if (selectedCategory == "all") return trendingPapers;
 
     return trendingPapers.where((item) {
-      return item["category"] == selectedCategory;
+      final title =
+      (item["title"] ?? "").toString().toLowerCase();
+
+      return title.contains(
+        selectedCategory.replaceAll("_", " ").toLowerCase(),
+      );
     }).toList();
   }
 
