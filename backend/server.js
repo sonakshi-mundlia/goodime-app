@@ -10,7 +10,7 @@ const History = require("./models/History");
 const auth = require("./middleware/authMiddleware");
 
 const { summarizePaper } = require("./services/gemini");
-const { trendingPapers, categorySearch, searchPapers } = require("./services/paper");
+const { trendingPapers, categorySearch, searchPapers } = require("./services/papers");
 
 const app = express();
 
