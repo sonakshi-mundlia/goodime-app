@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   bool hidePassword = true;
 
-  final String baseUrl = "https://goodime-backend.onrender.com";
+  final String baseUrl = "https://goodime-app.onrender.com";
 
   // ================= LOGIN =================
   Future<void> loginUser() async {

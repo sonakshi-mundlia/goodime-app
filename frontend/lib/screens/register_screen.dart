@@ -24,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading = false;
   bool hidePassword = true;
 
-  final String baseUrl = "https://goodime-backend.onrender.com";
+  final String baseUrl = "https://goodime-app.onrender.com";
 
   // ================= REGISTER =================
   Future<void> registerUser() async {

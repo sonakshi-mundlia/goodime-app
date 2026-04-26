@@ -23,7 +23,7 @@ class _ExploreCategoriesScreenState
   bool isLoading = false;
   List papers = [];
 
-  final String baseUrl = "https://goodime-backend.onrender.com";
+  final String baseUrl = "https://goodime-app.onrender.com";
 
   final List<String> categories = [
     "all",

@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   http.Client? _client;
   bool _isCancelled = false;
 
-  final String baseUrl = "https://goodime-backend.onrender.com";
+  final String baseUrl = "https://goodime-app.onrender.com";
 
   @override
   void initState() {

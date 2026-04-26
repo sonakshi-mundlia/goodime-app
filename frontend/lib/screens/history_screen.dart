@@ -20,7 +20,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   bool loading = true;
   List history = [];
 
-  final String baseUrl = "https://goodime-backend.onrender.com";
+  final String baseUrl = "https://goodime-app.onrender.com";
 
   @override
   void initState() {

@@ -102,7 +102,7 @@ class AuthProvider extends ChangeNotifier {
 
     final res = await http.put(
       Uri.parse(
-        "https://goodime-backend.onrender.com/auth/profile",
+        "https://goodime-app.onrender.com/auth/profile",
       ),
       headers: {
         "Content-Type":

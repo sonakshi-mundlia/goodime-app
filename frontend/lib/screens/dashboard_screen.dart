@@ -29,7 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   List<Map<String, dynamic>> uploadedFiles = [];
 
-  final String baseUrl = "https://goodime-backend.onrender.com";
+  final String baseUrl = "https://goodime-app.onrender.com";
   http.Client? _client;
   bool _isCancelled = false;
 

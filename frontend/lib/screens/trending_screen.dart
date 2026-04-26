@@ -21,7 +21,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
 
   String selectedCategory = "all";
 
-  final String baseUrl = "https://goodime-backend.onrender.com";
+  final String baseUrl = "https://goodime-app.onrender.com";
 
   final List<String> categories = [
     "all",
