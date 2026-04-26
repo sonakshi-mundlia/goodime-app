@@ -138,18 +138,26 @@ class _ExploreCategoriesScreenState
     setState(() => isLoading = true);
 
     try {
-      final uri = Uri.parse(
-        "$baseUrl/search?category=$selectedCategory&limit=20",
-      );
+      String url;
 
-      final response = await http.get(uri);
+      if (selectedCategory == "all") {
+        url = "$baseUrl/trending";
+      } else {
+        url =
+        "$baseUrl/categories/$selectedCategory";
+      }
+
+      final response =
+      await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
-        final decoded = jsonDecode(response.body);
+        final decoded =
+        jsonDecode(response.body);
 
         setState(() {
-          papers = List<Map<String, dynamic>>.from(
-            decoded["data"] ?? decoded,
+          papers =
+          List<Map<String, dynamic>>.from(
+            decoded["data"] ?? [],
           );
         });
       } else {
