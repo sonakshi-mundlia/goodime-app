@@ -10,6 +10,7 @@ const History = require("./models/History");
 const auth = require("./middleware/authMiddleware");
 
 const { summarizePaper } = require("./services/gemini");
+const { trendingPapers, categorySearch } = require("./paper");
 
 const app = express();
 
@@ -269,8 +270,47 @@ app.delete("/history/:id", auth, async (req, res) => {
 SEARCH (PLACEHOLDER)
 ========================================
 */
-app.get("/search", async (req, res) => {
-  res.json({ message: "Search API ready" });
+app.get("/trending", async (req, res) => {
+  try {
+    const data = await trendingPapers(10);
+
+    res.json({
+      success: true,
+      data,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/categories/:category", async (req, res) => {
+  try {
+    const { category } = req.params;
+
+    const data = await categorySearch(category, 20);
+
+    res.json({
+      success: true,
+      category,
+      data,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/categories", (req, res) => {
+  res.json({
+    success: true,
+    categories: [
+      "Artificial Intelligence",
+      "Quantum Computing",
+      "Climate Change",
+      "Biotechnology",
+      "Renewable Energy",
+      "Public Health",
+    ],
+  });
 });
 
 /*
