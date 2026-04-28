@@ -62,11 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (!mounted) return;
 
+        Navigator.of(context).pop();
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(t("login_success"))),
         );
-
-        Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(data["message"] ?? "Login failed")),

@@ -35,11 +35,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // ================= LOGIN =================
-  Future<void> login(
-      String token, {
-        String? name,
-        String? email,
-      }) async {
+  Future<void> login(String token, {String? name, String? email}) async {
     final prefs = await SharedPreferences.getInstance();
 
     _token = token;
@@ -47,14 +43,8 @@ class AuthProvider extends ChangeNotifier {
     _userEmail = email;
 
     await prefs.setString('token', token);
-
-    if (name != null) {
-      await prefs.setString('user_name', name);
-    }
-
-    if (email != null) {
-      await prefs.setString('user_email', email);
-    }
+    await prefs.setString('user_name', name ?? '');
+    await prefs.setString('user_email', email ?? '');
 
     notifyListeners();
   }

@@ -147,18 +147,26 @@ class AuthWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthProvider>();
+    return Consumer<AuthProvider>(
+      builder: (context, auth, _) {
 
-    if (auth.isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
+        // 🔵 WAIT UNTIL INIT COMPLETES
+        if (auth.isLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-    if (auth.isLoggedIn) {
-      return const DashboardScreen();
-    }
+        // 🔵 SAFE CHECK (NOT computed getter)
+        final hasToken = auth.token != null && auth.token!.isNotEmpty;
 
-    return const HomeScreen();
+        if (hasToken) {
+          return const DashboardScreen();
+        }
+
+        return const HomeScreen();
+      },
+    );
   }
 }
+
