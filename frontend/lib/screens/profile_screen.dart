@@ -4,6 +4,7 @@ import 'home_screen.dart';
 import '/providers/settings_provider.dart';
 import '/providers/auth_provider.dart';
 import '/providers/language_service.dart';
+import '../main.dart';
 
 String t(String key) => LanguageService.t(key);
 
@@ -37,6 +38,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await context.read<AuthProvider>().logout();
 
     if (!mounted) return;
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const AuthWrapper()),
+          (route) => false,
+    );
 
   }
 
