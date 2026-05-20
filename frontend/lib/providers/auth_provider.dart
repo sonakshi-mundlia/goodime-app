@@ -21,6 +21,9 @@ class AuthProvider extends ChangeNotifier {
 
   // ================= INIT =================
   Future<void> init() async {
+    _isLoading = true;
+    notifyListeners();
+
     final prefs = await SharedPreferences.getInstance();
 
     _token = prefs.getString('token');
@@ -29,7 +32,6 @@ class AuthProvider extends ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
-
   }
 
   // ================= LOGIN =================

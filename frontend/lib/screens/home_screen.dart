@@ -175,10 +175,18 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(14),
         onTap: () {
           cancelUpload();
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => page),
-          );
+
+          if (page is LoginScreen) {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  (route) => false,
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => page),
+            );
+          }
         },
         child: Container(
           margin: const EdgeInsets.only(bottom: 8),
