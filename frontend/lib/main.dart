@@ -157,10 +157,7 @@ class AuthWrapper extends StatelessWidget {
           );
         }
 
-        // 🔵 SAFE CHECK (NOT computed getter)
-        final hasToken = auth.token != null && auth.token!.isNotEmpty;
-
-        if (hasToken) {
+        if (auth.isLoggedIn) {
           return const DashboardScreen();
         }
 
