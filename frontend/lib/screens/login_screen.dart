@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../providers/settings_provider.dart';
 import '/providers/language_service.dart';
-import '../main.dart';
 
 String t(String key) => LanguageService.t(key);
 
@@ -62,11 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
           );
 
           if (!mounted) return;
-
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (_) => const AuthWrapper()),
-                (route) => false,
-          );
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(t("login_success"))),
