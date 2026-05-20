@@ -102,7 +102,9 @@ class AuthProvider extends ChangeNotifier {
     _userName = null;
     _userEmail = null;
 
-    await prefs.clear();
+    await prefs.remove('token');
+    await prefs.remove('user_name');
+    await prefs.remove('user_email');
 
     notifyListeners();
   }

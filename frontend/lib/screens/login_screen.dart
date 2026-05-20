@@ -52,17 +52,16 @@ class _LoginScreenState extends State<LoginScreen> {
       final data = jsonDecode(res.body);
 
       if (res.statusCode == 200) {
-        final token = data["token"];
+          final token = data["token"];
 
-        await context.read<AuthProvider>().login(
-          token,
-          name: data["user"]?["name"],
-          email: data["user"]?["email"],
-        );
+          await context.read<AuthProvider>().login(
+            token,
+            name: data["user"]?["name"],
+            email: data["user"]?["email"],
+          );
 
-        if (!mounted) return;
+          if (!mounted) return;
 
-        Navigator.of(context).pop();
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(t("login_success"))),
