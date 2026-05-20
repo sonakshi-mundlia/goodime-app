@@ -62,8 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
           if (!mounted) return;
 
-          Navigator.of(context).popUntil((route) => route.isFirst);
-
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(t("login_success"))),

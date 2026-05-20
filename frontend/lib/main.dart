@@ -9,41 +9,28 @@ import './providers/settings_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final settingsProvider = SettingsProvider();
-  await settingsProvider.init();
-
-  final authProvider = AuthProvider();
-  await authProvider.init();
-
-  runApp(MyApp(
-    settingsProvider: settingsProvider,
-    authProvider: authProvider,
-  ));
+  runApp(const MyApp());
 }
 
 // ================= APP =================
 class MyApp extends StatelessWidget {
-  final SettingsProvider settingsProvider;
-  final AuthProvider authProvider;
-
-  const MyApp({
-    super.key,
-    required this.settingsProvider,
-    required this.authProvider,
-  });
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: settingsProvider),
-        ChangeNotifierProvider.value(value: authProvider),
+        ChangeNotifierProvider(
+          create: (_) => SettingsProvider()..init(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider()..init(),
+        ),
       ],
       child: Consumer<SettingsProvider>(
         builder: (context, settings, child) {
           final size = MediaQuery.of(context).size;
 
-          // ================= RESPONSIVE SCALE =================
           final isSmall = size.width < 360;
           final isLarge = size.width >= 700;
 
@@ -71,13 +58,11 @@ class MyApp extends StatelessWidget {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-
       textTheme: TextTheme(
         bodyMedium: TextStyle(fontSize: 14 * scale),
         titleMedium: TextStyle(fontSize: 16 * scale),
         titleLarge: TextStyle(fontSize: 20 * scale),
       ),
-
       colorScheme: const ColorScheme.light(
         primary: Color(0xFF0D47A1),
         secondary: Color(0xFF4A148C),
@@ -85,9 +70,7 @@ class MyApp extends StatelessWidget {
         surfaceContainerHighest: Color(0xFFF1F3F4),
         onSurface: Color(0xFF111827),
       ),
-
-      scaffoldBackgroundColor: const Color(0xFFF8FAFC),
-
+      scaffoldBackgroundColor: Color(0xFFF8FAFC),
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,
@@ -98,7 +81,6 @@ class MyApp extends StatelessWidget {
           color: Colors.black,
         ),
       ),
-
       iconTheme: IconThemeData(size: 22 * scale),
     );
   }
@@ -108,13 +90,11 @@ class MyApp extends StatelessWidget {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-
       textTheme: TextTheme(
         bodyMedium: TextStyle(fontSize: 14 * scale),
         titleMedium: TextStyle(fontSize: 16 * scale),
         titleLarge: TextStyle(fontSize: 20 * scale),
       ),
-
       colorScheme: const ColorScheme.dark(
         primary: Color(0xFF90CAF9),
         secondary: Color(0xFFCE93D8),
@@ -122,9 +102,7 @@ class MyApp extends StatelessWidget {
         surfaceContainerHighest: Color(0xFF1E1E1E),
         onSurface: Colors.white,
       ),
-
-      scaffoldBackgroundColor: const Color(0xFF0F1115),
-
+      scaffoldBackgroundColor: Color(0xFF0F1115),
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,
@@ -135,7 +113,6 @@ class MyApp extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-
       iconTheme: IconThemeData(size: 22 * scale),
     );
   }
@@ -150,7 +127,6 @@ class AuthWrapper extends StatelessWidget {
     return Consumer<AuthProvider>(
       builder: (context, auth, _) {
 
-        // 🔵 WAIT UNTIL INIT COMPLETES
         if (auth.isLoading) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
@@ -166,4 +142,3 @@ class AuthWrapper extends StatelessWidget {
     );
   }
 }
-

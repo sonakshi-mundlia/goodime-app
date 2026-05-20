@@ -13,10 +13,7 @@ void main() {
     await authProvider.init();
 
     await tester.pumpWidget(
-      MyApp(
-        settingsProvider: settingsProvider,
-        authProvider: authProvider,
-      ),
+      MyApp(),
     );
 
     await tester.pumpAndSettle();
