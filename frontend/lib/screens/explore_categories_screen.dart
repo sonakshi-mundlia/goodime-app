@@ -251,7 +251,7 @@ class _ExploreCategoriesScreenState
             ),
           ),
 
-          const Spacer(),
+          const SizedBox(height: 8),
 
           // SOURCE + LINK ROW (compact)
           Row(
@@ -328,13 +328,13 @@ class _ExploreCategoriesScreenState
                     itemCount: papers.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: constraints.maxWidth < 600
-                          ? 2
+                          ? 1
                           : constraints.maxWidth < 1100
                           ? 3
                           : 3,
                       crossAxisSpacing: 18,
                       mainAxisSpacing: 18,
-                      childAspectRatio: 2.0,
+                      childAspectRatio: constraints.maxWidth < 600 ? 1.4 : 2.0,
                     ),
                     itemBuilder: (context, index) {
                       return paperCard(papers[index]);

@@ -252,7 +252,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
             ),
           ),
 
-          const Spacer(),
+          const SizedBox(height: 8),
 
           Row(
             children: [
@@ -482,20 +482,11 @@ class _TrendingScreenState extends State<TrendingScreen> {
                     itemCount:
                     getFiltered()
                         .length,
-                    gridDelegate:
-                    SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount:
-                      columns,
-                      crossAxisSpacing:
-                      mobile
-                          ? 10.0
-                          : 16.0,
-                      mainAxisSpacing:
-                      mobile
-                          ? 10.0
-                          : 16.0,
-                      childAspectRatio:
-                      ratio,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: constraints.maxWidth < 600 ? 1 : 3,
+                      crossAxisSpacing: 18,
+                      mainAxisSpacing: 18,
+                      childAspectRatio: constraints.maxWidth < 600 ? 1.4 : 2.0,
                     ),
                     itemBuilder:
                         (context,

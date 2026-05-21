@@ -322,7 +322,7 @@ class _SearchPaperScreenState extends State<SearchPaperScreen> {
             ),
           ),
 
-          const Spacer(),
+          const SizedBox(height: 8),
 
           // LINK + SOURCE ROW
           Row(
@@ -418,10 +418,10 @@ class _SearchPaperScreenState extends State<SearchPaperScreen> {
                       padding: const EdgeInsets.only(bottom: 16),
                       itemCount: papers.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
+                        crossAxisCount: constraints.maxWidth < 600 ? 1 : 3,
                         crossAxisSpacing: 18,
                         mainAxisSpacing: 18,
-                        childAspectRatio: 2.0,
+                        childAspectRatio: constraints.maxWidth < 600 ? 1.4 : 2.0,
                       ),
                       itemBuilder: (_, i) => _paperCard(papers[i]),
                     );
