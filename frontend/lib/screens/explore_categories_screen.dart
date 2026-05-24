@@ -196,91 +196,165 @@ class _ExploreCategoriesScreenState
 
   // ================= CARD (UNIFIED DESIGN) =================
   Widget paperCard(Map<String, dynamic> paper) {
+    final width = MediaQuery.of(context).size.width;
+
+    final bool mobile = width < 600;
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
+
       decoration: BoxDecoration(
         color: cardBg,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: cardShadow,
       ),
+
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
-          // TITLE
-          Text(
-            paper["title"] ?? t("no_title"),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: textColor,
-            ),
-          ),
 
-          const SizedBox(height: 6),
-
-          // AUTHORS
-          Text(
-            paper["authors"] ?? t("unknown_authors"),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 12,
-              color: textColor.withOpacity(0.7),
-            ),
-          ),
-
-          const SizedBox(height: 6),
-
-          // YEAR + CITATIONS (compact)
-          Text(
-            "${t("year")}: ${paper["year"] ?? "N/A"}  •  ${t("citations")}: ${paper["citations"] ?? 0}",
-            style: TextStyle(fontSize: 12, color: textColor),
-          ),
-
-          const SizedBox(height: 6),
-
-          // VENUE
-          Text(
-            paper["venue"] ?? t("unknown"),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 12,
-              color: textColor.withOpacity(0.6),
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // SOURCE + LINK ROW (compact)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // TOP CONTENT
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 3,
-                ),
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? Colors.grey.shade800
-                      : Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  paper["source"] ?? "api",
-                  style: TextStyle(fontSize: 10, color: textColor),
+
+              // TITLE
+              Text(
+                paper["title"] ?? t("no_title"),
+
+                maxLines: mobile ? 2 : 3,
+                overflow: TextOverflow.ellipsis,
+
+                style: TextStyle(
+                  fontSize: mobile ? 14 : 16,
+                  fontWeight: FontWeight.w700,
+                  height: 1.3,
+                  color: textColor,
                 ),
               ),
+
+              const SizedBox(height: 10),
+
+              // AUTHORS
+              Text(
+                paper["authors"] ?? t("unknown_authors"),
+
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+
+                style: TextStyle(
+                  fontSize: mobile ? 12 : 13,
+                  color: textColor.withOpacity(0.7),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              // YEAR + CITATIONS
+              Row(
+                children: [
+
+                  Expanded(
+                    child: Text(
+                      "${t("year")}: ${paper["year"] ?? "N/A"}",
+
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+
+                      style: TextStyle(
+                        fontSize: mobile ? 12 : 13,
+                        color: textColor,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 8),
+
+                  Expanded(
+                    child: Text(
+                      "${t("citations")}: ${paper["citations"] ?? 0}",
+
+                      textAlign: TextAlign.end,
+
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+
+                      style: TextStyle(
+                        fontSize: mobile ? 12 : 13,
+                        color: textColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 10),
+
+              // VENUE
+              Text(
+                paper["venue"] ?? t("unknown"),
+
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+
+                style: TextStyle(
+                  fontSize: mobile ? 12 : 13,
+                  color: textColor.withOpacity(0.6),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 14),
+
+          // FOOTER
+          Row(
+            children: [
+
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? Colors.grey.shade800
+                        : Colors.grey.shade200,
+
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+
+                  child: Text(
+                    paper["source"] ?? "api",
+
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+
+                    style: TextStyle(
+                      fontSize: mobile ? 10 : 11,
+                      fontWeight: FontWeight.w500,
+                      color: textColor,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 10),
 
               if (paper["url"] != null)
                 InkWell(
                   onTap: () => openUrl(paper["url"]),
+
                   child: Text(
                     t("open_paper"),
+
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: mobile ? 11 : 12,
+                      fontWeight: FontWeight.w600,
                       color: linkColor,
                       decoration: TextDecoration.underline,
                     ),
@@ -324,18 +398,35 @@ class _ExploreCategoriesScreenState
                   constraints.maxWidth < 700 ? 2 : 4;
 
                   return GridView.builder(
-                    padding: const EdgeInsets.only(bottom: 16),
+                    padding: const EdgeInsets.only(
+                      left: 4,
+                      right: 4,
+                      bottom: 20,
+                    ),
+
                     itemCount: papers.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: constraints.maxWidth < 600
+
+                    gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCount(
+
+                      crossAxisCount:
+                      constraints.maxWidth < 600
                           ? 1
-                          : constraints.maxWidth < 1100
-                          ? 3
+                          : constraints.maxWidth < 1000
+                          ? 2
                           : 3,
+
                       crossAxisSpacing: 18,
                       mainAxisSpacing: 18,
-                      childAspectRatio: constraints.maxWidth < 600 ? 1.4 : 2.0,
+
+                      childAspectRatio:
+                      constraints.maxWidth < 600
+                          ? 1.7
+                          : constraints.maxWidth < 1000
+                          ? 1.5
+                          : 1.8,
                     ),
+
                     itemBuilder: (context, index) {
                       return paperCard(papers[index]);
                     },

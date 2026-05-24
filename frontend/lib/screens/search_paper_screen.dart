@@ -268,95 +268,167 @@ class _SearchPaperScreenState extends State<SearchPaperScreen> {
   // ================= CARD =================
   Widget _paperCard(dynamic paper) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
+
       decoration: BoxDecoration(
         color: cardBg,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: cardShadow,
       ),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           // TITLE
           Text(
             paper["title"] ?? t("no_title"),
+
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
+
             style: TextStyle(
-              fontWeight: FontWeight.w600,
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              height: 1.3,
               color: textColor,
             ),
           ),
 
-          const SizedBox(height: 6),
+          const SizedBox(height: 10),
 
           // AUTHORS
           Text(
             paper["authors"] ?? t("unknown_authors"),
+
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+
             style: TextStyle(
               fontSize: 12,
+              height: 1.2,
               color: textColor.withOpacity(0.7),
             ),
           ),
 
-          const SizedBox(height: 6),
+          const SizedBox(height: 10),
 
-          // YEAR + CITATIONS (compact row)
-          Text(
-            "${t("year")}: ${paper["year"] ?? "N/A"}  •  ${t("citations")}: ${paper["citations"] ?? 0}",
-            style: TextStyle(fontSize: 12, color: textColor),
+          // YEAR + CITATIONS
+          Row(
+            children: [
+
+              Expanded(
+                child: Text(
+                  "${t("year")}: ${paper["year"] ?? "N/A"}",
+
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: textColor,
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              Expanded(
+                child: Text(
+                  "${t("citations")}: ${paper["citations"] ?? 0}",
+
+                  textAlign: TextAlign.end,
+
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: textColor,
+                  ),
+                ),
+              ),
+            ],
           ),
 
-          const SizedBox(height: 6),
+          const SizedBox(height: 10),
 
           // VENUE
           Text(
             paper["venue"] ?? t("unknown"),
+
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+
             style: TextStyle(
               fontSize: 12,
+              height: 1.2,
               color: textColor.withOpacity(0.6),
             ),
           ),
 
-          const SizedBox(height: 8),
+          const Spacer(),
 
-          // LINK + SOURCE ROW
+          // FOOTER
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+
             children: [
-              if (paper["url"] != null)
-                InkWell(
-                  onTap: () => openUrl(paper["url"]),
+
+              // SOURCE
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? Colors.grey.shade800
+                        : Colors.grey.shade200,
+
+                    borderRadius:
+                    BorderRadius.circular(8),
+                  ),
+
                   child: Text(
-                    t("open_paper"),
+                    paper["source"] ?? "api",
+
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+
                     style: TextStyle(
-                      fontSize: 12,
-                      color: linkColor,
-                      decoration: TextDecoration.underline,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: textColor,
                     ),
                   ),
                 ),
-
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 3,
-                ),
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? Colors.grey.shade800
-                      : Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  paper["source"] ?? "api",
-                  style: TextStyle(fontSize: 10, color: textColor),
-                ),
               ),
+
+              const SizedBox(width: 10),
+
+              // OPEN LINK
+              if (paper["url"] != null)
+                InkWell(
+                  onTap: () => openUrl(
+                    paper["url"],
+                  ),
+
+                  child: Text(
+                    t("open_paper"),
+
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: linkColor,
+                      decoration:
+                      TextDecoration.underline,
+                    ),
+                  ),
+                ),
             ],
           ),
         ],
@@ -408,22 +480,47 @@ class _SearchPaperScreenState extends State<SearchPaperScreen> {
               Expanded(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    int crossAxisCount = constraints.maxWidth < 600
-                        ? 2
-                        : constraints.maxWidth < 1100
-                        ? 3
-                        : 3;
+
+                    // RESPONSIVE GRID
+                    int crossAxisCount;
+
+                    if (constraints.maxWidth < 600) {
+                      crossAxisCount = 1; // mobile
+                    } else if (constraints.maxWidth < 1000) {
+                      crossAxisCount = 2; // tablet
+                    } else {
+                      crossAxisCount = 3; // desktop
+                    }
 
                     return GridView.builder(
-                      padding: const EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.only(
+                        left: 4,
+                        right: 4,
+                        bottom: 20,
+                      ),
+
                       itemCount: papers.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: constraints.maxWidth < 600 ? 1 : 3,
+
+                      gridDelegate:
+                      SliverGridDelegateWithFixedCrossAxisCount(
+
+                        crossAxisCount: crossAxisCount,
+
                         crossAxisSpacing: 18,
                         mainAxisSpacing: 18,
-                        childAspectRatio: constraints.maxWidth < 600 ? 1.4 : 2.0,
+
+                        // RESPONSIVE HEIGHTS
+                        childAspectRatio:
+                        constraints.maxWidth < 600
+                            ? 1.7
+                            : constraints.maxWidth < 1000
+                            ? 1.5
+                            : 1.8,
                       ),
-                      itemBuilder: (_, i) => _paperCard(papers[i]),
+
+                      itemBuilder: (_, i) {
+                        return _paperCard(papers[i]);
+                      },
                     );
                   },
                 ),

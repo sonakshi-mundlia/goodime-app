@@ -166,152 +166,197 @@ class _TrendingScreenState extends State<TrendingScreen> {
       bool mobile,
       bool tablet,
       ) {
-    final double titleSize =
-    mobile ? 13.5 : tablet ? 15.0 : 16.0;
-
-    final double textSize =
-    mobile ? 11.5 : 12.5;
-
-    final double smallSize =
-    mobile ? 10.5 : 11.5;
 
     return Container(
-      padding: EdgeInsets.all(
-        mobile ? 10.0 : 14.0,
-      ),
+      padding: const EdgeInsets.all(14),
+
       decoration: BoxDecoration(
         color: cardBg,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: cardShadow,
       ),
+
       child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
+
+          // TITLE
           Text(
-            item["title"] ?? t("no_title"),
-            maxLines: mobile ? 2 : 3,
+            item["title"] ??
+                t("no_title"),
+
+            maxLines: 2,
             overflow:
             TextOverflow.ellipsis,
+
             style: TextStyle(
-              fontSize: titleSize,
+              fontSize:
+              mobile ? 14 : 16,
+
               fontWeight:
               FontWeight.w700,
+
+              height: 1.3,
+
               color: textColor,
-              height: 1.25,
             ),
           ),
 
-          SizedBox(
-            height:
-            mobile ? 5.0 : 8.0,
-          ),
+          const SizedBox(height: 10),
 
+          // AUTHORS
           Text(
             item["authors"] ??
                 t("unknown_authors"),
+
             maxLines: 1,
             overflow:
             TextOverflow.ellipsis,
+
             style: TextStyle(
-              fontSize: textSize,
+              fontSize:
+              mobile ? 12 : 13,
+
               color: subText,
             ),
           ),
 
-          SizedBox(
-            height:
-            mobile ? 5.0 : 8.0,
-          ),
+          const SizedBox(height: 10),
 
-          Text(
-            "${t("year")}: ${item["year"] ?? "N/A"}   •   ${t("citations")}: ${item["citations"] ?? 0}",
-            maxLines: 1,
-            overflow:
-            TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: textSize,
-              color: textColor,
-            ),
-          ),
-
-          SizedBox(
-            height:
-            mobile ? 5.0 : 8.0,
-          ),
-
-          Text(
-            item["venue"] ??
-                t("unknown"),
-            maxLines: 1,
-            overflow:
-            TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: textSize,
-              color: subText,
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
+          // YEAR + CITATIONS
           Row(
             children: [
-              Container(
-                padding:
-                const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
-                decoration:
-                BoxDecoration(
-                  color: isDark
-                      ? Colors
-                      .grey
-                      .shade800
-                      : Colors
-                      .grey
-                      .shade200,
-                  borderRadius:
-                  BorderRadius
-                      .circular(
-                      6),
-                ),
+
+              Expanded(
                 child: Text(
-                  item["source"] ??
-                      "api",
-                  style:
-                  TextStyle(
+                  "${t("year")}: ${item["year"] ?? "N/A"}",
+
+                  maxLines: 1,
+                  overflow:
+                  TextOverflow.ellipsis,
+
+                  style: TextStyle(
                     fontSize:
-                    smallSize,
-                    color:
-                    textColor,
+                    mobile ? 12 : 13,
+
+                    color: textColor,
                   ),
                 ),
               ),
 
-              const Spacer(),
+              const SizedBox(width: 8),
 
-              if (item["url"] !=
-                  null)
+              Expanded(
+                child: Text(
+                  "${t("citations")}: ${item["citations"] ?? 0}",
+
+                  textAlign:
+                  TextAlign.end,
+
+                  maxLines: 1,
+                  overflow:
+                  TextOverflow.ellipsis,
+
+                  style: TextStyle(
+                    fontSize:
+                    mobile ? 12 : 13,
+
+                    color: textColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 10),
+
+          // VENUE
+          Text(
+            item["venue"] ??
+                t("unknown"),
+
+            maxLines: 1,
+            overflow:
+            TextOverflow.ellipsis,
+
+            style: TextStyle(
+              fontSize:
+              mobile ? 12 : 13,
+
+              color: subText,
+            ),
+          ),
+
+          const Spacer(),
+
+          // FOOTER
+          Row(
+            children: [
+
+              Flexible(
+                child: Container(
+                  padding:
+                  const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+
+                  decoration:
+                  BoxDecoration(
+                    color: isDark
+                        ? Colors.grey.shade800
+                        : Colors.grey.shade200,
+
+                    borderRadius:
+                    BorderRadius.circular(8),
+                  ),
+
+                  child: Text(
+                    item["source"] ??
+                        "api",
+
+                    maxLines: 1,
+                    overflow:
+                    TextOverflow.ellipsis,
+
+                    style: TextStyle(
+                      fontSize:
+                      mobile ? 10 : 11,
+
+                      fontWeight:
+                      FontWeight.w500,
+
+                      color: textColor,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 10),
+
+              if (item["url"] != null)
                 InkWell(
                   onTap: () =>
                       openUrl(
                         item["url"],
                       ),
+
                   child: Text(
                     t("open_paper"),
-                    style:
-                    TextStyle(
+
+                    style: TextStyle(
                       fontSize:
-                      smallSize,
-                      color:
-                      linkColor,
+                      mobile ? 11 : 12,
+
                       fontWeight:
-                      FontWeight
-                          .w600,
+                      FontWeight.w600,
+
+                      color: linkColor,
+
                       decoration:
-                      TextDecoration
-                          .underline,
+                      TextDecoration.underline,
                     ),
                   ),
                 ),
@@ -390,20 +435,6 @@ class _TrendingScreenState extends State<TrendingScreen> {
             width >= 600 &&
                 width < 1000;
 
-        final int columns =
-        mobile
-            ? 2
-            : tablet
-            ? 3
-            : 4;
-
-        final double ratio =
-        mobile
-            ? 0.78
-            : tablet
-            ? 0.95
-            : 1.12;
-
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -452,59 +483,75 @@ class _TrendingScreenState extends State<TrendingScreen> {
                       : 16.0,
                 ),
 
-                Expanded(
-                  child:
-                  isLoading
-                      ? const Center(
-                    child:
-                    CircularProgressIndicator(),
-                  )
-                      : getFiltered()
-                      .isEmpty
-                      ? Center(
-                    child:
-                    Text(
-                      t("no_trending_found"),
-                      style:
-                      TextStyle(
-                        fontSize: mobile
-                            ? 14.0
-                            : 16.0,
-                      ),
+              Expanded(
+                child: isLoading
+                    ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : getFiltered().isEmpty
+                    ? Center(
+                  child: Text(
+                    t("no_trending_found"),
+                    style: TextStyle(
+                      fontSize: mobile ? 14 : 16,
                     ),
-                  )
-                      : GridView.builder(
-                    padding:
-                    const EdgeInsets.only(
-                      bottom:
-                      20,
-                    ),
-                    itemCount:
-                    getFiltered()
-                        .length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: constraints.maxWidth < 600 ? 1 : 3,
-                      crossAxisSpacing: 18,
-                      mainAxisSpacing: 18,
-                      childAspectRatio: constraints.maxWidth < 600 ? 1.4 : 2.0,
-                    ),
-                    itemBuilder:
-                        (context,
-                        index) {
-                      return buildCard(
-                        getFiltered()[
-                        index],
-                        mobile,
-                        tablet,
-                      );
-                    },
                   ),
+                )
+                    : LayoutBuilder(
+                  builder: (context, gridConstraints) {
+
+                    int crossAxisCount;
+
+                    if (gridConstraints.maxWidth < 600) {
+                      crossAxisCount = 1;
+                    } else if (gridConstraints.maxWidth < 1000) {
+                      crossAxisCount = 2;
+                    } else {
+                      crossAxisCount = 3;
+                    }
+
+                    return GridView.builder(
+                      padding: const EdgeInsets.only(
+                        left: 4,
+                        right: 4,
+                        bottom: 20,
+                      ),
+
+                      itemCount: getFiltered().length,
+
+                      gridDelegate:
+                      SliverGridDelegateWithFixedCrossAxisCount(
+
+                        crossAxisCount: crossAxisCount,
+
+                        crossAxisSpacing: 18,
+                        mainAxisSpacing: 18,
+
+                        // RESPONSIVE HEIGHT
+                        childAspectRatio:
+                        gridConstraints.maxWidth < 600
+                            ? 1.7
+                            : gridConstraints.maxWidth < 1000
+                            ? 1.5
+                            : 1.8,
+                      ),
+
+                      itemBuilder: (context, index) {
+                        return buildCard(
+                          getFiltered()[index],
+                          mobile,
+                          tablet,
+                        );
+                      },
+                    );
+                  },
                 ),
+              ),
               ],
             ),
           ),
         );
-      },
+          },
     );
   }
 }
